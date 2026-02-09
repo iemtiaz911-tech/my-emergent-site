@@ -20,8 +20,9 @@
      NAVIGATION - Hamburger Menu
      ============================================ */
   
-  .mobile-nav-toggle {
-    display: flex;
+  /* CRITICAL: Show hamburger button on mobile */
+  nav .mobile-nav-toggle {
+    display: flex !important;
     align-items: center;
     justify-content: center;
     width: 48px;
@@ -29,14 +30,12 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    position: fixed;
-    top: 20px;
-    right: 20px;
+    position: relative;
     z-index: 100;
     padding: 12px;
   }
 
-  .mobile-nav-toggle span {
+  nav .mobile-nav-toggle span {
     display: block;
     width: 24px;
     height: 2px;
@@ -45,8 +44,8 @@
     transition: all 300ms ease;
   }
 
-  .mobile-nav-toggle span::before,
-  .mobile-nav-toggle span::after {
+  nav .mobile-nav-toggle span::before,
+  nav .mobile-nav-toggle span::after {
     content: '';
     position: absolute;
     width: 24px;
@@ -55,43 +54,47 @@
     transition: all 300ms ease;
   }
 
-  .mobile-nav-toggle span::before {
+  nav .mobile-nav-toggle span::before {
     top: -8px;
   }
 
-  .mobile-nav-toggle span::after {
+  nav .mobile-nav-toggle span::after {
     bottom: -8px;
   }
 
-  .mobile-nav-toggle.active span {
+  nav .mobile-nav-toggle span.active {
     background: transparent;
   }
 
-  .mobile-nav-toggle.active span::before {
+  nav .mobile-nav-toggle span.active::before {
     transform: rotate(45deg);
     top: 0;
   }
 
-  .mobile-nav-toggle.active span::after {
+  nav .mobile-nav-toggle span.active::after {
     transform: rotate(-45deg);
     bottom: 0;
   }
 
   /* Hide desktop navigation items */
-  nav .hidden.md\\:flex {
+  nav .hidden.md\\:flex,
+  nav .md\\:flex,
+  nav > div > div.hidden {
     display: none !important;
   }
 
   /* Mobile menu panel */
   .mobile-menu-panel {
+    display: block;
     position: fixed;
     top: 0;
     right: -100%;
-    width: 80%;
+    width: 85%;
     max-width: 320px;
     height: 100vh;
-    background: rgba(5, 31, 32, 0.98);
+    background: rgba(6, 20, 27, 0.98);
     backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(74, 92, 106, 0.3);
     z-index: 99;
     padding: 100px 32px 40px;
     transition: right 300ms ease;
@@ -108,26 +111,34 @@
     width: 100%;
     min-height: 56px;
     padding: 18px 0;
-    font-size: 18px;
-    color: #CCD0CF;
+    font-size: 16px;
+    font-weight: 600;
+    color: #9BA8AB;
     text-align: left;
-    border-bottom: 1px solid rgba(204, 208, 207, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(74, 92, 106, 0.2);
     transition: color 200ms ease;
+    background: transparent;
+    border-left: none;
+    border-right: none;
+    border-top: none;
   }
 
   .mobile-menu-panel a:hover,
   .mobile-menu-panel button:hover {
-    color: #FFFFFF;
+    color: #CCD0CF;
   }
 
   /* Mobile menu overlay */
   .mobile-menu-overlay {
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     z-index: 98;
     opacity: 0;
     visibility: hidden;
@@ -143,33 +154,45 @@
      HEADER / LOGO SECTION
      ============================================ */
   
+  /* Fix navigation positioning and sizing */
   nav {
-    padding: 20px !important;
-    top: 20px !important;
+    width: 95% !important;
+    max-width: 95% !important;
+    top: 16px !important;
+    padding: 0 !important;
   }
 
   nav .nav-glass {
-    padding: 16px 32px !important;
+    padding: 12px 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
   }
 
+  /* Logo section */
   nav .flex.items-center.gap-3 {
     margin-right: auto;
+    flex-shrink: 0;
   }
 
   nav .size-5,
   nav .size-6 {
-    width: 20px !important;
-    height: 20px !important;
+    width: 18px !important;
+    height: 18px !important;
   }
 
-  nav .text-\\[11px\\],
-  nav .text-sm {
-    font-size: 13px !important;
+  nav span.text-\\[11px\\] {
+    font-size: 11px !important;
+    letter-spacing: 0.15em !important;
   }
 
-  /* Hide "Book A Call" button on mobile nav - show in menu instead */
-  nav > div > a[href*="calendly"],
-  nav > div > button:last-child {
+  /* Hide desktop nav elements */
+  nav > div > div:not(.flex.items-center.gap-3):not(.mobile-nav-toggle) {
+    display: none !important;
+  }
+
+  /* Hide "Book A Call" button in nav - show in mobile menu */
+  nav > div > a[href*="calendly"]:not(.mobile-menu-panel a) {
     display: none !important;
   }
 
