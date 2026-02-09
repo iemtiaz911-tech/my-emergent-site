@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import mobile responsive styles */
+@import './mobile-responsive.css';
+
 body {
     margin: 0;
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
