@@ -154,10 +154,10 @@
      HEADER / LOGO SECTION
      ============================================ */
   
-  /* Fix navigation positioning and sizing - CRITICAL */
+  /* Fix navigation positioning and sizing - MAKE IT NARROWER */
   nav {
-    width: 90% !important;
-    max-width: 90% !important;
+    width: 85% !important;
+    max-width: 85% !important;
     top: 12px !important;
     padding: 0 !important;
     left: 50% !important;
@@ -165,29 +165,29 @@
   }
 
   nav .nav-glass {
-    padding: 10px 16px !important;
+    padding: 10px 14px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
     border-radius: 40px !important;
   }
 
-  /* Logo section - make it smaller */
+  /* Logo section - make it compact */
   nav .flex.items-center.gap-3 {
     margin-right: auto;
     flex-shrink: 0;
-    gap: 8px !important;
+    gap: 6px !important;
   }
 
   nav .size-5,
   nav .size-6 {
-    width: 16px !important;
-    height: 16px !important;
+    width: 15px !important;
+    height: 15px !important;
   }
 
   nav span.text-\\[11px\\] {
-    font-size: 10px !important;
-    letter-spacing: 0.12em !important;
+    font-size: 9px !important;
+    letter-spacing: 0.1em !important;
   }
 
   /* Hide desktop nav elements */
@@ -350,20 +350,22 @@
      CONTENT SPACING & LAYOUT
      ============================================ */
   
-  /* Container padding */
+  /* Container padding - consistent across all sections */
   .px-6,
   .px-10 {
-    padding-left: 24px !important;
-    padding-right: 24px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
 
-  /* Max width for content */
+  /* Max width for content - ensure consistency */
   .max-w-5xl,
   .max-w-6xl,
   .max-w-7xl,
   .max-w-\\[1100px\\],
   .max-w-\\[1200px\\] {
-    max-width: 92% !important;
+    max-width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
 
   /* Grid to single column */
@@ -374,28 +376,93 @@
   .grid.md\\:grid-cols-4,
   .grid.lg\\:grid-cols-4 {
     grid-template-columns: 1fr !important;
+    gap: 32px !important;
   }
 
   /* Flex to column */
   .flex.md\\:flex-row,
   .flex.lg\\:flex-row {
     flex-direction: column !important;
+    gap: 32px !important;
+  }
+
+  /* ============================================
+     CONTACT PAGE SPECIFIC FIXES
+     ============================================ */
+  
+  /* Contact page hero - ensure consistent width */
+  .contact-hero,
+  section.relative.min-h-screen {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* Globe and form container - ensure equal sizing */
+  .grid.md\\:grid-cols-2 > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  /* Globe container - consistent sizing */
+  .min-h-\\[500px\\],
+  .min-h-\\[400px\\] {
+    min-height: 350px !important;
+    width: 100% !important;
+    border-radius: 24px !important;
+  }
+
+  /* Contact form card - match other sections */
+  .bg-secondary-bg.border.p-12,
+  .bg-secondary-bg.border.rounded-\\[40px\\] {
+    padding: 24px !important;
+    border-radius: 24px !important;
+    width: 100% !important;
+  }
+
+  /* Global offices cards - consistent sizing */
+  .grid.md\\:grid-cols-3 > div {
+    width: 100% !important;
+    padding: 24px !important;
+    margin-bottom: 24px !important;
+    border-radius: 24px !important;
   }
 
   /* ============================================
      CARD COMPONENTS
      ============================================ */
   
+  /* All cards should have consistent padding and sizing */
   .card-hover,
   .bg-secondary-bg,
-  .bg-primary-bg {
-    padding: 32px 24px !important;
+  .bg-primary-bg,
+  div[class*="rounded-"] {
+    padding: 24px !important;
     border-radius: 24px !important;
+    width: 100% !important;
   }
 
   /* Service cards */
   .group.bg-secondary-bg.border {
     margin-bottom: 24px !important;
+    padding: 28px !important;
+  }
+
+  /* Contact page form inputs - consistent sizing */
+  input,
+  textarea,
+  select {
+    width: 100% !important;
+    padding: 14px 16px !important;
+    font-size: 15px !important;
+  }
+
+  /* Buttons on contact page */
+  button[type="submit"],
+  .bg-\\[\\#D4AF87\\] {
+    width: 100% !important;
+    padding: 16px !important;
+    font-size: 14px !important;
   }
 
   /* ============================================
