@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
 import { ChevronLeft, ChevronRight, Play, VolumeX, Volume2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useCounterAnimation } from '../hooks/useCounterAnimation';
 
 export const CaseStudiesPage = () => {
   const [currentVideo, setCurrentVideo] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [metricKey, setMetricKey] = useState(0);
+
+  const counter1 = useCounterAnimation(230, { prefix: '+', suffix: '%' });
+  const counter2 = useCounterAnimation(180, { prefix: '+', suffix: '%' });
+  const counter3 = useCounterAnimation(154, { prefix: '+', suffix: '%' });
 
   const videos = [
     {
@@ -16,7 +22,8 @@ export const CaseStudiesPage = () => {
       company: 'Fashion Brand',
       metric: '+230% Revenue Growth',
       timeline: '6-MONTH CAMPAIGN',
-      thumbnail: 'https://images.unsplash.com/photo-1758876022473-d3d8513f15d3'
+      thumbnail: 'https://images.unsplash.com/photo-1758876022473-d3d8513f15d3',
+      counterRef: counter1
     },
     {
       url: 'https://customer-assets.emergentagent.com/job_creative-engine-16/artifacts/biuuucwi_WhatsApp%20Video%202026-02-06%20at%205.40.28%20AM.mp4',
@@ -24,7 +31,8 @@ export const CaseStudiesPage = () => {
       company: 'SaaS Platform',
       metric: '+180% User Acquisition',
       timeline: '4-MONTH SPRINT',
-      thumbnail: 'https://images.unsplash.com/photo-1764664035163-f8f29058e557'
+      thumbnail: 'https://images.unsplash.com/photo-1764664035163-f8f29058e557',
+      counterRef: counter2
     },
     {
       url: 'https://customer-assets.emergentagent.com/job_creative-engine-16/artifacts/9u0g0az4_WhatsApp%20Video%202026-02-06%20at%202.29.43%20AM.mp4',
@@ -32,9 +40,14 @@ export const CaseStudiesPage = () => {
       company: 'Jewelry Brand',
       metric: '+154% YoY Growth',
       timeline: '3-MONTH SPRINT',
-      thumbnail: 'https://images.unsplash.com/photo-1624717369155-2b748ce8f0ff'
+      thumbnail: 'https://images.unsplash.com/photo-1624717369155-2b748ce8f0ff',
+      counterRef: counter3
     }
   ];
+
+  useEffect(() => {
+    setMetricKey(prev => prev + 1);
+  }, [currentVideo]);
 
   const handlePrevious = () => {
     setCurrentVideo((prev) => (prev === 0 ? videos.length - 1 : prev - 1));
@@ -151,7 +164,7 @@ export const CaseStudiesPage = () => {
                 </div>
                 <div className="h-10 w-px bg-border-main/50"></div>
                 <div className="flex flex-col">
-                  <span className="text-silver-accent text-sm font-bold mb-0.5">{currentVideoData.metric}</span>
+                  <span key={metricKey} ref={currentVideoData.counterRef} className="text-silver-accent text-sm font-bold mb-0.5">+0%</span>
                   <span className="text-[9px] font-bold tracking-[0.25em] text-body-text uppercase">{currentVideoData.timeline}</span>
                 </div>
               </div>
