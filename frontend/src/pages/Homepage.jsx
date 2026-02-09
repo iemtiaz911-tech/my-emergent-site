@@ -2,8 +2,14 @@ import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useCounterAnimation } from '../hooks/useCounterAnimation';
 
 export const Homepage = () => {
+  const counter1 = useCounterAnimation(100, { prefix: '$', suffix: 'M+' });
+  const counter2 = useCounterAnimation(4.5, { suffix: 'x', decimals: 1 });
+  const counter3 = useCounterAnimation(50, { suffix: '+' });
+  const counter4 = useCounterAnimation(500, { prefix: '$', suffix: 'M+' });
+
   return (
     <div className="min-h-screen bg-primary-bg">
       <Navigation />
@@ -45,19 +51,19 @@ export const Homepage = () => {
         <div className="max-w-7xl mx-auto px-6 py-24">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             <div className="flex flex-col items-center space-y-4">
-              <span className="font-serif text-5xl md:text-6xl text-white font-light">$100M+</span>
+              <span ref={counter1} className="font-serif text-5xl md:text-6xl text-white font-light">$0M+</span>
               <span className="text-metadata text-[10px] uppercase tracking-[0.3em]">Ad Spend Managed</span>
             </div>
             <div className="flex flex-col items-center space-y-4">
-              <span className="font-serif text-5xl md:text-6xl text-white font-light">4.5x</span>
+              <span ref={counter2} className="font-serif text-5xl md:text-6xl text-white font-light">0.0x</span>
               <span className="text-metadata text-[10px] uppercase tracking-[0.3em]">Avg Account ROAS</span>
             </div>
             <div className="flex flex-col items-center space-y-4">
-              <span className="font-serif text-5xl md:text-6xl text-white font-light">50+</span>
+              <span ref={counter3} className="font-serif text-5xl md:text-6xl text-white font-light">0+</span>
               <span className="text-metadata text-[10px] uppercase tracking-[0.3em]">Scale-Up Brands</span>
             </div>
             <div className="flex flex-col items-center space-y-4">
-              <span className="font-serif text-5xl md:text-6xl text-white font-light">$500M+</span>
+              <span ref={counter4} className="font-serif text-5xl md:text-6xl text-white font-light">$0M+</span>
               <span className="text-metadata text-[10px] uppercase tracking-[0.3em]">Revenue Generated</span>
             </div>
           </div>
