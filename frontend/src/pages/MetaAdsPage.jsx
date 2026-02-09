@@ -1,8 +1,74 @@
+import { useState, useEffect, useRef } from 'react';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
 import { Sparkles, Target, BarChart3 } from 'lucide-react';
+import { useCounterAnimation } from '../hooks/useCounterAnimation';
 
 export const MetaAdsPage = () => {
+  const [activeStep, setActiveStep] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const cycleIntervalRef = useRef(null);
+  const resumeTimeoutRef = useRef(null);
+
+  const counter1 = useCounterAnimation(4.8, { suffix: 'x', decimals: 1 });
+  const counter2 = useCounterAnimation(12, { prefix: '$', suffix: 'M+' });
+  const counter3 = useCounterAnimation(92, { suffix: '%' });
+  const counter4 = useCounterAnimation(24, { suffix: 'h' });
+
+  // Methodology auto-cycle
+  useEffect(() => {
+    const startCycle = () => {
+      if (cycleIntervalRef.current) clearInterval(cycleIntervalRef.current);
+      cycleIntervalRef.current = setInterval(() => {
+        if (!isHovered) {
+          setActiveStep((prev) => (prev + 1) % 4);
+        }
+      }, 4000);
+    };
+
+    startCycle();
+
+    return () => {
+      if (cycleIntervalRef.current) clearInterval(cycleIntervalRef.current);
+      if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    };
+  }, [isHovered]);
+
+  const handleStepHover = (index) => {
+    setIsHovered(true);
+    setActiveStep(index);
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+  };
+
+  const handleStepLeave = () => {
+    resumeTimeoutRef.current = setTimeout(() => {
+      setIsHovered(false);
+    }, 1000);
+  };
+
+  const methodology = [
+    {
+      number: '01',
+      title: 'Audit & Infrastructure',
+      description: 'Deep dive into current account health, pixel setup, and Conversion API (CAPI) integration to ensure a bulletproof measurement foundation.'
+    },
+    {
+      number: '02',
+      title: 'Creative Concepting',
+      description: 'Development of editorial-grade visual assets. We treat your ads like premium magazine spreads, focusing on aesthetics that stop the scroll and convert.'
+    },
+    {
+      number: '03',
+      title: 'Aggressive Scaling',
+      description: 'Once a winning creative is identified, we scale horizontally and vertically, maintaining CPA targets while protecting your brand's integrity.'
+    },
+    {
+      number: '04',
+      title: 'Insight Loop',
+      description: 'Bi-weekly reporting and deep-dive strategy sessions to iterate on high-performing assets and pivot quickly on market changes.'
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-primary-bg">
       <Navigation />
@@ -91,19 +157,19 @@ export const MetaAdsPage = () => {
       <section className="bg-primary-bg py-32 px-6 border-y border-border-main relative">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-16 text-center">
           <div>
-            <div className="font-serif text-white text-5xl md:text-7xl mb-6">4.8x</div>
+            <div ref={counter1} className="font-serif text-white text-5xl md:text-7xl mb-6">0.0x</div>
             <div className="text-[11px] uppercase tracking-[0.35em] font-bold text-metadata">Average ROAS</div>
           </div>
           <div>
-            <div className="font-serif text-white text-5xl md:text-7xl mb-6">$12M+</div>
+            <div ref={counter2} className="font-serif text-white text-5xl md:text-7xl mb-6">$0M+</div>
             <div className="text-[11px] uppercase tracking-[0.35em] font-bold text-metadata">Managed Spend</div>
           </div>
           <div>
-            <div className="font-serif text-white text-5xl md:text-7xl mb-6">92%</div>
+            <div ref={counter3} className="font-serif text-white text-5xl md:text-7xl mb-6">0%</div>
             <div className="text-[11px] uppercase tracking-[0.35em] font-bold text-metadata">Client Retention</div>
           </div>
           <div>
-            <div className="font-serif text-white text-5xl md:text-7xl mb-6">24h</div>
+            <div ref={counter4} className="font-serif text-white text-5xl md:text-7xl mb-6">0h</div>
             <div className="text-[11px] uppercase tracking-[0.35em] font-bold text-metadata">Sync Frequency</div>
           </div>
         </div>
@@ -118,43 +184,34 @@ export const MetaAdsPage = () => {
           </h2>
           <p className="text-body-text text-xl mb-32 max-w-xl leading-relaxed">A refined, four-stage framework designed for consistent performance and elite brand positioning on Meta platforms.</p>
 
-          <div className="space-y-28">
-            {/* Step 1 */}
-            <div className="flex flex-col md:flex-row gap-8 md:gap-24 items-start">
-              <span className="font-serif text-border-main text-7xl mt-1 opacity-20">01</span>
-              <div className="flex-1">
-                <h3 className="text-4xl mb-7 font-serif italic text-white">Audit & Infrastructure</h3>
-                <p className="text-body-text text-xl leading-relaxed max-w-2xl">Deep dive into current account health, pixel setup, and Conversion API (CAPI) integration to ensure a bulletproof measurement foundation.</p>
+          <div className="methodology-steps space-y-28">
+            {methodology.map((step, index) => (
+              <div 
+                key={index}
+                className={`methodology-step transition-all duration-[800ms] cubic-bezier-0.4-0-0.2-1 ${activeStep === index ? 'active' : ''}`}
+                onMouseEnter={() => handleStepHover(index)}
+                onMouseLeave={handleStepLeave}
+              >
+                <div className={`step-content flex flex-col md:flex-row gap-8 md:gap-24 items-start relative ${
+                  activeStep === index ? 'bg-secondary-bg border border-border-main rounded-[40px] p-10 md:p-16 shadow-[0_0_40px_rgba(204,208,207,0.1)]' : ''
+                }`}>
+                  {activeStep === index && (
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(204,208,207,0.15)_0%,transparent_50%)] pointer-events-none rounded-[40px]"></div>
+                  )}
+                  <span className={`step-number font-serif text-7xl mt-1 relative z-10 transition-colors duration-[800ms] ${
+                    activeStep === index ? 'text-white' : 'text-border-main/20'
+                  }`}>{step.number}</span>
+                  <div className="step-text flex-1 relative z-10">
+                    <h3 className={`text-4xl mb-7 font-serif italic transition-colors duration-[800ms] ${
+                      activeStep === index ? 'text-white' : 'text-white'
+                    }`}>{step.title}</h3>
+                    <p className={`text-xl leading-relaxed max-w-2xl transition-colors duration-[800ms] ${
+                      activeStep === index ? 'text-white' : 'text-body-text'
+                    }`}>{step.description}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-
-            {/* Step 2 - Highlighted */}
-            <div className="flex flex-col md:flex-row gap-8 md:gap-24 items-start relative p-10 md:p-16 bg-secondary-bg border border-border-main rounded-[40px]">
-              <div className="atmospheric-glow opacity-20"></div>
-              <span className="font-serif text-white text-7xl mt-1 relative z-10">02</span>
-              <div className="flex-1 relative z-10">
-                <h3 className="text-4xl mb-7 text-white font-serif italic">Creative Concepting</h3>
-                <p className="text-white text-xl leading-relaxed max-w-2xl">Development of editorial-grade visual assets. We treat your ads like premium magazine spreads, focusing on aesthetics that stop the scroll and convert.</p>
-              </div>
-            </div>
-
-            {/* Step 3 */}
-            <div className="flex flex-col md:flex-row gap-8 md:gap-24 items-start">
-              <span className="font-serif text-border-main text-7xl mt-1 opacity-20">03</span>
-              <div className="flex-1">
-                <h3 className="text-4xl mb-7 font-serif italic text-white">Aggressive Scaling</h3>
-                <p className="text-body-text text-xl leading-relaxed max-w-2xl">Once a winning creative is identified, we scale horizontally and vertically, maintaining CPA targets while protecting your brand's integrity.</p>
-              </div>
-            </div>
-
-            {/* Step 4 */}
-            <div className="flex flex-col md:flex-row gap-8 md:gap-24 items-start">
-              <span className="font-serif text-border-main text-7xl mt-1 opacity-20">04</span>
-              <div className="flex-1">
-                <h3 className="text-4xl mb-7 font-serif italic text-white">Insight Loop</h3>
-                <p className="text-body-text text-xl leading-relaxed max-w-2xl">Bi-weekly reporting and deep-dive strategy sessions to iterate on high-performing assets and pivot quickly on market changes.</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
