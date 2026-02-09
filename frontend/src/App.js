@@ -3,17 +3,24 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Homepage } from "./pages/Homepage";
 import { AIUGCPage } from "./pages/AIUGCPage";
 import { ContactPage } from "./pages/ContactPage";
+import { CaseStudiesPage } from "./pages/CaseStudiesPage";
+import { OrganicContentPage } from "./pages/OrganicContentPage";
+import { MetaAdsPage } from "./pages/MetaAdsPage";
+import { ScrollToTop } from "./components/ScrollToTop";
 import { Toaster } from "./components/ui/sonner";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/ai-ugc" element={<AIUGCPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/case-studies" element={<Homepage />} />
+          <Route path="/case-studies" element={<CaseStudiesPage />} />
+          <Route path="/organic-content" element={<OrganicContentPage />} />
+          <Route path="/meta-ads" element={<MetaAdsPage />} />
         </Routes>
         <Toaster 
           position="top-right"
