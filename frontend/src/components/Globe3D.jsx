@@ -1,131 +1,124 @@
-import { useRef, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere } from '@react-three/drei';
-import * as THREE from 'three';
-
-const GlobeCore = () => {
-  const globeRef = useRef();
-  const markersRef = useRef();
-
-  useFrame((state) => {
-    if (globeRef.current) {
-      globeRef.current.rotation.y += 0.002;
-    }
-    if (markersRef.current) {
-      markersRef.current.rotation.y += 0.002;
-    }
-  });
-
-  // Location data with approximate lat/long coordinates
-  const locations = [
-    { name: 'New York', lat: 40.7128, lon: -74.0060, color: '#D4AF87' },
-    { name: 'London', lat: 51.5074, lon: -0.1278, color: '#D4AF87' },
-    { name: 'Cyprus', lat: 35.1264, lon: 33.4299, color: '#D4AF87' },
-    { name: 'Ireland', lat: 53.3498, lon: -6.2603, color: '#D4AF87' },
-    { name: 'India', lat: 20.5937, lon: 78.9629, color: '#D4AF87' }
-  ];
-
-  // Convert lat/lon to 3D coordinates
-  const latLonToVector3 = (lat, lon, radius) => {
-    const phi = (90 - lat) * (Math.PI / 180);
-    const theta = (lon + 180) * (Math.PI / 180);
-    const x = -(radius * Math.sin(phi) * Math.cos(theta));
-    const z = radius * Math.sin(phi) * Math.sin(theta);
-    const y = radius * Math.cos(phi);
-    return new THREE.Vector3(x, y, z);
-  };
-
-  return (
-    <group>
-      {/* Main Globe */}
-      <Sphere ref={globeRef} args={[2, 64, 64]}>
-        <meshStandardMaterial
-          color="#0a1929"
-          wireframe={false}
-          emissive="#06141B"
-          roughness={0.9}
-          metalness={0.1}
-        />
-      </Sphere>
-
-      {/* Wireframe Overlay */}
-      <Sphere args={[2.01, 32, 32]}>
-        <meshBasicMaterial
-          color="#4A5C6A"
-          wireframe={true}
-          opacity={0.25}
-          transparent
-        />
-      </Sphere>
-
-      {/* Atmospheric Glow */}
-      <Sphere args={[2.15, 32, 32]}>
-        <meshBasicMaterial
-          color="#CCD0CF"
-          transparent
-          opacity={0.05}
-          side={THREE.BackSide}
-        />
-      </Sphere>
-
-      {/* Location Markers */}
-      <group ref={markersRef}>
-        {locations.map((loc, i) => {
-          const position = latLonToVector3(loc.lat, loc.lon, 2.05);
-          return (
-            <group key={i} position={position}>
-              {/* Pin */}
-              <Sphere args={[0.05, 16, 16]}>
-                <meshBasicMaterial color={loc.color} />
-              </Sphere>
-              {/* Glow effect */}
-              <Sphere args={[0.1, 16, 16]}>
-                <meshBasicMaterial color={loc.color} transparent opacity={0.2} />
-              </Sphere>
-              {/* Pulse ring */}
-              <mesh rotation={[Math.PI / 2, 0, 0]}>
-                <ringGeometry args={[0.08, 0.12, 32]} />
-                <meshBasicMaterial color={loc.color} transparent opacity={0.3} side={THREE.DoubleSide} />
-              </mesh>
-            </group>
-          );
-        })}
-      </group>
-
-      {/* Lighting */}
-      <ambientLight intensity={0.6} />
-      <pointLight position={[10, 10, 10]} intensity={1.2} color="#CCD0CF" />
-      <pointLight position={[-10, -10, -10]} intensity={0.4} color="#4A5C6A" />
-      <directionalLight position={[5, 5, 5]} intensity={0.5} color="#ffffff" />
-    </group>
-  );
-};
+import { useEffect, useRef } from 'react';
 
 export const Globe3D = () => {
-  const canvasRef = useRef();
+  const locations = [
+    { name: 'New York', left: '25%', top: '35%' },
+    { name: 'London', left: '48%', top: '30%' },
+    { name: 'Cyprus', left: '58%', top: '38%' },
+    { name: 'Ireland', left: '45%', top: '28%' },
+    { name: 'India', left: '72%', top: '45%' }
+  ];
 
   return (
-    <div className="w-full h-full min-h-[500px] rounded-[40px] overflow-hidden bg-secondary-bg border border-border-main relative">
-      <Canvas
-        ref={canvasRef}
-        camera={{ position: [0, 0, 5.5], fov: 45 }}
-        style={{ background: 'transparent' }}
-        gl={{ antialias: true, alpha: true }}
-      >
-        <GlobeCore />
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.3}
-          minPolarAngle={Math.PI / 3}
-          maxPolarAngle={2 * Math.PI / 3}
-          rotateSpeed={0.5}
-        />
-      </Canvas>
+    <div className="w-full h-full min-h-[500px] rounded-[40px] overflow-hidden bg-secondary-bg border border-border-main relative flex items-center justify-center">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(204,208,207,0.05)_0%,transparent_70%)]"></div>
+      
+      {/* Globe container */}
+      <div className="relative w-[400px] h-[400px] globe-container">
+        {/* Globe sphere with gradient */}
+        <div className="globe-sphere absolute inset-0 rounded-full bg-gradient-to-br from-[#0a1929] via-[#06141B] to-[#0a1929] border-2 border-border-main/30 shadow-[0_0_60px_rgba(204,208,207,0.1)] overflow-hidden">
+          {/* Rotating grid lines */}
+          <div className="globe-grid absolute inset-0">
+            {/* Horizontal lines */}
+            {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+              <div
+                key={`h-${i}`}
+                className="absolute left-0 right-0 h-px bg-border-main/20"
+                style={{ top: `${(i / 6) * 100}%` }}
+              ></div>
+            ))}
+            {/* Vertical lines */}
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <div
+                key={`v-${i}`}
+                className="absolute top-0 bottom-0 w-px bg-border-main/20"
+                style={{ left: `${(i / 8) * 100}%` }}
+              ></div>
+            ))}
+          </div>
+          
+          {/* Glow effect */}
+          <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_40%_40%,rgba(204,208,207,0.08)_0%,transparent_60%)]"></div>
+        </div>
+
+        {/* Location markers */}
+        {locations.map((loc, index) => (
+          <div
+            key={index}
+            className="location-marker absolute"
+            style={{ left: loc.left, top: loc.top }}
+          >
+            {/* Pin */}
+            <div className="relative flex items-center justify-center">
+              <div className="absolute w-4 h-4 bg-[#D4AF87] rounded-full animate-pulse"></div>
+              <div className="absolute w-8 h-8 bg-[#D4AF87]/20 rounded-full animate-ping"></div>
+              <div className="absolute w-6 h-6 bg-[#D4AF87]/30 rounded-full"></div>
+            </div>
+            
+            {/* Location name tooltip */}
+            <div className="absolute top-6 left-1/2 -translate-x-1/2 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+              <div className="bg-secondary-bg/95 backdrop-blur-sm border border-border-main px-3 py-1 rounded-lg whitespace-nowrap">
+                <span className="text-[10px] font-bold tracking-wider uppercase text-silver-accent">{loc.name}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {/* Outer glow ring */}
+        <div className="absolute inset-0 rounded-full border border-silver-accent/10 animate-spin-slow"></div>
+      </div>
+
+      {/* Bottom label */}
       <div className="absolute bottom-8 left-0 right-0 text-center pointer-events-none">
         <p className="text-body-text text-xs tracking-widest uppercase">Global Client Base</p>
       </div>
+
+      <style jsx>{`
+        .globe-container {
+          animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+
+        .globe-grid {
+          animation: rotate 60s linear infinite;
+        }
+
+        @keyframes rotate {
+          from {
+            transform: rotateY(0deg);
+          }
+          to {
+            transform: rotateY(360deg);
+          }
+        }
+
+        .animate-spin-slow {
+          animation: spin-slow 30s linear infinite;
+        }
+
+        @keyframes spin-slow {
+          from {
+            transform: rotate(0deg) scale(1.05);
+          }
+          to {
+            transform: rotate(360deg) scale(1.05);
+          }
+        }
+
+        .location-marker {
+          transform: translate(-50%, -50%);
+          z-index: 10;
+        }
+      `}</style>
     </div>
   );
 };
