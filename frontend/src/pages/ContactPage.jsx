@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
-import { Globe3D } from '../components/Globe3D';
+// import { Globe3D } from '../components/Globe3D';
 import { MapPin, ArrowRight, Twitter, Youtube, Instagram } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -93,9 +93,9 @@ export const ContactPage = () => {
       <section className="section-spacing px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-10">
-            {/* Globe */}
-            <div className="relative">
-              <Globe3D />
+            {/* Globe Placeholder */}
+            <div className="relative bg-secondary-bg border border-border-main rounded-[40px] min-h-[500px] flex items-center justify-center">
+              <p className="text-silver-accent text-2xl font-serif italic">Interactive 3D Globe Loading...</p>
             </div>
 
             {/* Contact Form */}
