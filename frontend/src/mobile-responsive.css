@@ -203,31 +203,49 @@
   /* Reduce excessive top padding */
   section.relative.pt-\\[240px\\],
   section.relative.min-h-screen,
-  header.relative.min-h-screen {
-    padding-top: 140px !important;
-    padding-bottom: 80px !important;
+  section.relative.min-h-\\[90vh\\],
+  header.relative.min-h-screen,
+  header.relative.min-h-\\[90vh\\] {
+    padding-top: 120px !important;
+    padding-bottom: 60px !important;
     min-height: auto !important;
   }
 
-  /* Hero headlines */
+  /* Hero headlines - make them properly sized for mobile */
   h1.text-6xl,
   h1.text-7xl,
   h1.text-\\[84px\\],
   h1.text-\\[96px\\],
   h1.text-\\[100px\\],
   h1.text-\\[110px\\],
-  h1.text-\\[120px\\] {
-    font-size: 42px !important;
-    line-height: 1.2 !important;
-    margin-bottom: 24px !important;
+  h1.text-\\[120px\\],
+  h1.md\\:text-\\[84px\\],
+  h1.md\\:text-\\[96px\\] {
+    font-size: 38px !important;
+    line-height: 1.15 !important;
+    margin-bottom: 20px !important;
   }
 
   /* Hero subtext */
   .font-serif.italic.text-2xl,
   .font-serif.italic.text-3xl,
-  .font-serif.italic.text-\\[32px\\] {
-    font-size: 18px !important;
-    line-height: 1.6 !important;
+  .font-serif.italic.text-\\[32px\\],
+  .font-serif.italic.md\\:text-3xl,
+  .font-serif.italic.md\\:text-\\[32px\\] {
+    font-size: 17px !important;
+    line-height: 1.55 !important;
+    margin-bottom: 32px !important;
+  }
+
+  /* Metadata/labels above headlines */
+  .metadata-text,
+  .text-\\[10px\\].uppercase,
+  .text-\\[11px\\].uppercase,
+  .text-\\[12px\\].uppercase,
+  span.inline-block.text-metadata {
+    font-size: 10px !important;
+    letter-spacing: 0.25em !important;
+    margin-bottom: 16px !important;
   }
 
   /* ============================================
