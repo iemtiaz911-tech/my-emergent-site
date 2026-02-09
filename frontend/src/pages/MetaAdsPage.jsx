@@ -60,7 +60,7 @@ export const MetaAdsPage = () => {
     {
       number: '03',
       title: 'Aggressive Scaling',
-      description: 'Once a winning creative is identified, we scale horizontally and vertically, maintaining CPA targets while protecting your brand's integrity.'
+      description: 'Once a winning creative is identified, we scale horizontally and vertically, maintaining CPA targets while protecting your brand\'s integrity.'
     },
     {
       number: '04',
