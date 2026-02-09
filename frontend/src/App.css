@@ -1,34 +1,64 @@
-.App-logo {
-    height: 40vmin;
+.atmospheric-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, rgba(204, 208, 207, 0.08) 0%, transparent 70%);
+    z-index: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+.nav-glass {
+    background: rgba(17, 33, 45, 0.8);
+    backdrop-filter: blur(16px);
+    border: 1px solid #4A5C6A;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.btn-glow-hover {
+    transition: all 300ms ease;
 }
 
-.App-link {
-    color: #61dafb;
+.btn-glow-hover:hover {
+    box-shadow: 0 0 20px rgba(204, 208, 207, 0.25);
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.card-hover {
+    transition: all 500ms ease;
+}
+
+.card-hover:hover {
+    border-color: #CCD0CF;
+    box-shadow: 0 0 30px rgba(204, 208, 207, 0.1);
+}
+
+.section-spacing {
+    padding-top: clamp(120px, 10vw, 160px);
+    padding-bottom: clamp(120px, 10vw, 160px);
+}
+
+.serif-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+}
+
+.metadata-text {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #828182;
+}
+
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 300ms ease;
+}
+
+.nav-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
