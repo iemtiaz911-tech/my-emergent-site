@@ -9,10 +9,10 @@ const GlobeCore = () => {
 
   useFrame((state) => {
     if (globeRef.current) {
-      globeRef.current.rotation.y += 0.001;
+      globeRef.current.rotation.y += 0.002;
     }
     if (markersRef.current) {
-      markersRef.current.rotation.y += 0.001;
+      markersRef.current.rotation.y += 0.002;
     }
   });
 
@@ -40,7 +40,7 @@ const GlobeCore = () => {
       {/* Main Globe */}
       <Sphere ref={globeRef} args={[2, 64, 64]}>
         <meshStandardMaterial
-          color="#11212D"
+          color="#0a1929"
           wireframe={false}
           emissive="#06141B"
           roughness={0.9}
@@ -53,8 +53,18 @@ const GlobeCore = () => {
         <meshBasicMaterial
           color="#4A5C6A"
           wireframe={true}
-          opacity={0.3}
+          opacity={0.25}
           transparent
+        />
+      </Sphere>
+
+      {/* Atmospheric Glow */}
+      <Sphere args={[2.15, 32, 32]}>
+        <meshBasicMaterial
+          color="#CCD0CF"
+          transparent
+          opacity={0.05}
+          side={THREE.BackSide}
         />
       </Sphere>
 
@@ -64,45 +74,57 @@ const GlobeCore = () => {
           const position = latLonToVector3(loc.lat, loc.lon, 2.05);
           return (
             <group key={i} position={position}>
-              <Sphere args={[0.04, 16, 16]}>
+              {/* Pin */}
+              <Sphere args={[0.05, 16, 16]}>
                 <meshBasicMaterial color={loc.color} />
               </Sphere>
               {/* Glow effect */}
-              <Sphere args={[0.08, 16, 16]}>
-                <meshBasicMaterial color={loc.color} transparent opacity={0.3} />
+              <Sphere args={[0.1, 16, 16]}>
+                <meshBasicMaterial color={loc.color} transparent opacity={0.2} />
               </Sphere>
+              {/* Pulse ring */}
+              <mesh rotation={[Math.PI / 2, 0, 0]}>
+                <ringGeometry args={[0.08, 0.12, 32]} />
+                <meshBasicMaterial color={loc.color} transparent opacity={0.3} side={THREE.DoubleSide} />
+              </mesh>
             </group>
           );
         })}
       </group>
 
       {/* Lighting */}
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} intensity={1} />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} />
+      <ambientLight intensity={0.6} />
+      <pointLight position={[10, 10, 10]} intensity={1.2} color="#CCD0CF" />
+      <pointLight position={[-10, -10, -10]} intensity={0.4} color="#4A5C6A" />
+      <directionalLight position={[5, 5, 5]} intensity={0.5} color="#ffffff" />
     </group>
   );
 };
 
 export const Globe3D = () => {
+  const canvasRef = useRef();
+
   return (
-    <div className="w-full h-full min-h-[500px] rounded-[40px] overflow-hidden bg-secondary-bg border border-border-main">
+    <div className="w-full h-full min-h-[500px] rounded-[40px] overflow-hidden bg-secondary-bg border border-border-main relative">
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 45 }}
+        ref={canvasRef}
+        camera={{ position: [0, 0, 5.5], fov: 45 }}
         style={{ background: 'transparent' }}
+        gl={{ antialias: true, alpha: true }}
       >
         <GlobeCore />
         <OrbitControls
           enableZoom={false}
           enablePan={false}
           autoRotate
-          autoRotateSpeed={0.5}
+          autoRotateSpeed={0.3}
           minPolarAngle={Math.PI / 3}
           maxPolarAngle={2 * Math.PI / 3}
+          rotateSpeed={0.5}
         />
       </Canvas>
-      <div className="absolute bottom-8 left-0 right-0 text-center">
-        <p className="text-body-text text-xs tracking-widest uppercase">Our client base</p>
+      <div className="absolute bottom-8 left-0 right-0 text-center pointer-events-none">
+        <p className="text-body-text text-xs tracking-widest uppercase">Global Client Base</p>
       </div>
     </div>
   );

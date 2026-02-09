@@ -46,12 +46,6 @@ export const Navigation = () => {
                   Organic Content
                 </Link>
                 <Link 
-                  to="/#arsenal"
-                  className="block px-4 py-2 text-[10px] font-bold tracking-widest uppercase text-body-text hover:text-white hover:bg-white/5 rounded-lg transition-all"
-                >
-                  Creative Strategy
-                </Link>
-                <Link 
                   to="/meta-ads"
                   className="block px-4 py-2 text-[10px] font-bold tracking-widest uppercase text-body-text hover:text-white hover:bg-white/5 rounded-lg transition-all"
                 >
